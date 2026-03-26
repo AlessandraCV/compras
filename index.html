@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Compras Família Vieira</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Nunito+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #2E7D52;
+    --green-light: #4CAF50;
+    --green-pale: #E8F5E9;
+    --green-mid: #C8E6C9;
+    --bg: #F4F7F4;
+    --white: #ffffff;
+    --text: #1a2e1a;
+    --text-soft: #5a7a5a;
+    --text-muted: #8aaa8a;
+    --border: #ddeedd;
+    --red: #e53935;
+    --red-pale: #ffebee;
+    --shadow: 0 2px 12px rgba(46,125,82,0.08);
+    --shadow-md: 0 4px 20px rgba(46,125,82,0.13);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: 'Nunito Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    max-width: 480px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--green);
+    padding: 18px 20px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+  .logo {
+    width: 40px; height: 40px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .header-text h1 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 17px; font-weight: 800;
+    color: white; line-height: 1.1;
+  }
+  .header-text p {
+    font-size: 11px; color: rgba(255,255,255,0.7);
+    font-weight: 500; letter-spacing: 0.3px;
+  }
+  .header-count {
+    margin-left: auto;
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 4px 11px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px; font-weight: 700;
+    color: white;
+  }
+
+  /* TABS */
+  .tabs {
+    background: var(--white);
+    padding: 10px 16px;
+    display: flex; gap: 8px;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 68px; z-index: 99;
+  }
+  .tab {
+    flex: 1; padding: 8px 4px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-soft);
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px; font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+    transition: all 0.2s;
+  }
+  .tab.active {
+    background: var(--green);
+    border-color: var(--green);
+    color: white;
+  }
+  .tab span { font-size: 15px; }
+
+  /* ADD FORM */
+  .add-section {
+    background: var(--white);
+    margin: 12px 14px;
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: var(--shadow);
+    border: 1.5px solid var(--green-mid);
+  }
+  .add-section h3 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px; font-weight: 800;
+    color: var(--green);
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .form-row {
+    display: flex; gap: 8px; margin-bottom: 8px;
+  }
+  .form-row input, .form-row select {
+    flex: 1;
+    padding: 9px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 14px; color: var(--text);
+    background: var(--bg);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-row input:focus, .form-row select:focus { border-color: var(--green-light); }
+  .form-row input::placeholder { color: var(--text-muted); }
+  .form-row select { cursor: pointer; }
+  .form-row-bottom { display: flex; gap: 8px; align-items: center; }
+  .qty-row { display: flex; align-items: center; gap: 6px; }
+  .qty-row label {
+    font-size: 12px; font-weight: 700; color: var(--text-soft);
+    font-family: 'Nunito', sans-serif;
+  }
+  .qty-controls { display: flex; align-items: center; gap: 4px; }
+  .qty-btn {
+    width: 28px; height: 28px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    cursor: pointer;
+    font-size: 16px; font-weight: 700;
+    color: var(--green); line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .qty-btn:hover { background: var(--green-pale); }
+  .qty-val {
+    min-width: 28px; text-align: center;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px; font-weight: 700; color: var(--text);
+  }
+  .unit-input {
+    width: 64px; padding: 7px 8px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 13px; color: var(--text);
+    background: var(--bg); outline: none;
+  }
+  .unit-input:focus { border-color: var(--green-light); }
+  .add-btn {
+    margin-left: auto;
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 9px 18px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px; font-weight: 800;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .add-btn:active { transform: scale(0.97); }
+  .add-btn:hover { background: #26694a; }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: flex; gap: 8px;
+    padding: 0 14px 4px;
+  }
+  .stat-chip {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 11px; font-weight: 700;
+    color: var(--text-soft);
+    font-family: 'Nunito', sans-serif;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; gap: 4px;
+  }
+  .stat-chip.done { color: var(--green); border-color: var(--green-mid); background: var(--green-pale); }
+
+  /* SEARCH */
+  .search-wrap {
+    padding: 0 14px 10px;
+  }
+  .search-wrap input {
+    width: 100%; padding: 9px 14px 9px 36px;
+    border: 1.5px solid var(--border);
+    border-radius: 30px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 14px; color: var(--text);
+    background: var(--white);
+    outline: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238aaa8a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 12px center;
+    transition: border-color 0.2s;
+  }
+  .search-wrap input:focus { border-color: var(--green-light); }
+
+  /* ITEMS */
+  .list-container { padding: 0 14px 100px; flex: 1; }
+
+  .group-header {
+    display: flex; align-items: center; gap: 8px;
+    padding: 14px 0 6px;
+  }
+  .group-header h2 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px; font-weight: 800;
+    color: var(--text-soft);
+    text-transform: uppercase; letter-spacing: 0.8px;
+  }
+  .group-line { flex: 1; height: 1px; background: var(--border); }
+  .group-badge {
+    background: var(--border);
+    border-radius: 20px; padding: 2px 8px;
+    font-size: 10px; font-weight: 700;
+    color: var(--text-muted); font-family: 'Nunito', sans-serif;
+  }
+
+  .item-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+    padding: 13px 14px;
+    display: flex; align-items: flex-start; gap: 11px;
+    box-shadow: var(--shadow);
+    border: 1.5px solid transparent;
+    transition: all 0.2s;
+    animation: slideIn 0.25s ease;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .item-card.checked {
+    opacity: 0.55;
+    border-color: var(--green-mid);
+    background: var(--green-pale);
+  }
+  .check-btn {
+    width: 26px; height: 26px;
+    border-radius: 50%; flex-shrink: 0;
+    border: 2px solid var(--border);
+    background: transparent; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    color: transparent; font-size: 14px;
+  }
+  .check-btn.checked {
+    background: var(--green); border-color: var(--green); color: white;
+  }
+  .item-emoji { font-size: 22px; flex-shrink: 0; margin-top:1px; }
+  .item-info { flex: 1; min-width: 0; }
+  .item-name {
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px; font-weight: 700; color: var(--text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .item-card.checked .item-name { text-decoration: line-through; }
+  .item-meta {
+    display: flex; align-items: center; gap: 6px; margin-top: 3px; flex-wrap: wrap;
+  }
+  .item-cat {
+    font-size: 11px; color: var(--text-muted);
+    font-weight: 600; font-family: 'Nunito', sans-serif;
+  }
+  .market-badge {
+    font-size: 10px; font-weight: 800;
+    padding: 2px 8px; border-radius: 20px;
+    font-family: 'Nunito', sans-serif;
+    color: white;
+  }
+  .item-qty-controls { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+  .iq-btn {
+    width: 26px; height: 26px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px; background: var(--bg);
+    cursor: pointer; font-size: 15px; font-weight: 700;
+    color: var(--green); line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .iq-btn:hover { background: var(--green-pale); }
+  .iq-val {
+    min-width: 36px; text-align: center;
+    font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
+  }
+  .del-btn {
+    width: 30px; height: 30px; flex-shrink: 0; margin-top:0px;
+    border: none; background: transparent; cursor: pointer;
+    color: var(--red); font-size: 16px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .del-btn:hover { background: var(--red-pale); }
+
+  /* EMPTY */
+  .empty {
+    text-align: center; padding: 50px 20px;
+    color: var(--text-muted);
+  }
+  .empty .empty-icon { font-size: 52px; margin-bottom: 10px; }
+  .empty p { font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 700; }
+  .empty span { font-size: 13px; font-weight: 400; }
+
+  /* BOTTOM CLEAR */
+  .bottom-bar {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 480px;
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    padding: 10px 16px 18px;
+    display: flex; gap: 8px;
+  }
+  .clear-btn {
+    flex: 1; padding: 11px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: transparent; cursor: pointer;
+    font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
+    color: var(--text-soft);
+    transition: all 0.2s;
+  }
+  .clear-btn:hover { background: var(--red-pale); color: var(--red); border-color: var(--red); }
+  .clear-done-btn {
+    flex: 1; padding: 11px;
+    border-radius: var(--radius-sm);
+    border: none;
+    background: var(--green-pale);
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
+    color: var(--green);
+    transition: all 0.2s;
+  }
+  .clear-done-btn:hover { background: var(--green-mid); }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+    background: #1a2e1a; color: white;
+    padding: 10px 20px; border-radius: 30px;
+    font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
+    opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 999;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+    <svg width="26" height="26" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Fan ribs -->
+      <line x1="50" y1="72" x2="50" y2="10" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.9"/>
+      <line x1="50" y1="72" x2="22" y2="16" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.9"/>
+      <line x1="50" y1="72" x2="78" y2="16" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.9"/>
+      <line x1="50" y1="72" x2="10" y2="36" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.85"/>
+      <line x1="50" y1="72" x2="90" y2="36" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.85"/>
+      <line x1="50" y1="72" x2="4"  y2="58" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.75"/>
+      <line x1="50" y1="72" x2="96" y2="58" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.75"/>
+      <!-- Fan outline arc -->
+      <path d="M 4 58 A 48 48 0 0 1 96 58" stroke="white" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.95"/>
+      <!-- Flat base -->
+      <path d="M 28 72 Q 50 80 72 72" stroke="white" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <!-- Hinge bumps -->
+      <circle cx="38" cy="76" r="4" fill="white" opacity="0.85"/>
+      <circle cx="50" cy="78" r="4" fill="white" opacity="0.85"/>
+      <circle cx="62" cy="76" r="4" fill="white" opacity="0.85"/>
+    </svg>
+  </div>
+  <div class="header-text">
+    <h1>Compras Família Vieira</h1>
+    <p>Lista de compras familiar</p>
+  </div>
+  <div class="header-count" id="totalCount">0 itens</div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="setTab('lista')" id="tab-lista"><span>☰</span> Lista</button>
+  <button class="tab" onclick="setTab('categoria')" id="tab-categoria"><span>🏷️</span> Categoria</button>
+  <button class="tab" onclick="setTab('mercado')" id="tab-mercado"><span>🛒</span> Mercado</button>
+</div>
+
+<div class="add-section">
+  <h3>➕ Adicionar item</h3>
+  <div class="form-row">
+    <input type="text" id="itemName" placeholder="Nome do produto…" maxlength="60">
+  </div>
+  <div class="form-row">
+    <select id="itemCat">
+      <option value="">🏷️ Categoria</option>
+      <option value="Bebidas">🥤 Bebidas</option>
+      <option value="Carnes e Peixes">🥩 Carnes e Peixes</option>
+      <option value="Congelados">🍦 Congelados</option>
+      <option value="Doces">🍫 Doces</option>
+      <option value="Frutas">🍎 Frutas</option>
+      <option value="Geladeira">🧊 Geladeira</option>
+      <option value="Higiene">🧴 Higiene</option>
+      <option value="Laticínios">🥛 Laticínios</option>
+      <option value="Legumes e Verduras">🥦 Legumes e Verduras</option>
+      <option value="Limpeza">🧹 Limpeza</option>
+      <option value="Mercearia">🛒 Mercearia</option>
+      <option value="Outros">📦 Outros</option>
+      <option value="Padaria">🍞 Padaria</option>
+      <option value="Petiscos">🍿 Petiscos</option>
+    </select>
+    <select id="itemMarket">
+      <option value="">🏪 Mercado</option>
+      <option value="Action">Action</option>
+      <option value="Aldi">Aldi</option>
+      <option value="Auchan">Auchan</option>
+      <option value="Continente">Continente</option>
+      <option value="E.Leclerc">E.Leclerc</option>
+      <option value="Intermarché">Intermarché</option>
+      <option value="Lidl">Lidl</option>
+      <option value="Mercadona">Mercadona</option>
+      <option value="Pingo Doce">Pingo Doce</option>
+    </select>
+  </div>
+  <div class="form-row-bottom">
+    <div class="qty-row">
+      <label>Qtd</label>
+      <div class="qty-controls">
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <span class="qty-val" id="qtyVal">1</span>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+      </div>
+    </div>
+    <input type="text" class="unit-input" id="itemUnit" placeholder="un / kg / L" maxlength="6">
+    <button class="add-btn" onclick="addItem()">✓ Adicionar</button>
+  </div>
+</div>
+
+<div class="stats-bar" id="statsBar"></div>
+
+<div class="search-wrap">
+  <input type="text" id="searchInput" placeholder="Pesquisar na lista…" oninput="renderList()">
+</div>
+
+<div class="list-container" id="listContainer"></div>
+
+<div class="bottom-bar">
+  <button class="clear-done-btn" onclick="clearDone()">✓ Limpar comprados</button>
+  <button class="clear-btn" onclick="clearAll()">🗑 Limpar tudo</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STORAGE_KEY = 'vieira_compras_v2';
+
+const MARKET_COLORS = {
+  'Auchan': '#FF6600',
+  'Continente': '#CC0000',
+  'Pingo Doce': '#FFD700',
+  'Intermarché': '#E30613',
+  'Aldi': '#005AA0',
+  'Lidl': '#0050AA',
+  'E.Leclerc': '#003DA5',
+  'Action': '#7B2D8B',
+  'Mercadona': '#006633',
+};
+
+const MARKET_TEXT_COLORS = {
+  'Pingo Doce': '#333',
+};
+
+const CAT_EMOJIS = {
+  'Higiene': '🧴', 'Limpeza': '🧹', 'Bebidas': '🥤',
+  'Mercearia': '🛒', 'Laticínios': '🥛', 'Carnes e Peixes': '🥩',
+  'Geladeira': '❄️', 'Congelados': '🍦', 'Frutas': '🍎',
+  'Legumes e Verduras': '🥦', 'Padaria': '🍞', 'Doces': '🍫',
+  'Petiscos': '🍿', 'Outros': '📦', '': '🛍️'
+};
+
+let items = [];
+let addQty = 1;
+let currentTab = 'lista';
+
+function load() {
+  try { items = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { items = []; }
+}
+function save() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+}
+
+function setTab(t) {
+  currentTab = t;
+  ['lista','categoria','mercado'].forEach(id => {
+    document.getElementById('tab-'+id).classList.toggle('active', id === t);
+  });
+  renderList();
+}
+
+function changeQty(d) {
+  addQty = Math.max(1, addQty + d);
+  document.getElementById('qtyVal').textContent = addQty;
+}
+
+function addItem() {
+  const name = document.getElementById('itemName').value.trim();
+  if (!name) { showToast('⚠️ Escreve o nome do produto!'); return; }
+  const cat = document.getElementById('itemCat').value;
+  const market = document.getElementById('itemMarket').value;
+  const unit = document.getElementById('itemUnit').value.trim() || 'un';
+  items.push({ id: Date.now(), name, cat, market, qty: addQty, unit, checked: false });
+  save();
+  document.getElementById('itemName').value = '';
+  document.getElementById('itemCat').value = '';
+  document.getElementById('itemMarket').value = '';
+  document.getElementById('itemUnit').value = '';
+  addQty = 1; document.getElementById('qtyVal').textContent = 1;
+  renderList();
+  showToast('✅ ' + name + ' adicionado!');
+}
+
+function toggleItem(id) {
+  const item = items.find(i => i.id === id);
+  if (item) { item.checked = !item.checked; save(); renderList(); }
+}
+
+function deleteItem(id) {
+  items = items.filter(i => i.id !== id);
+  save(); renderList();
+}
+
+function changeItemQty(id, d) {
+  const item = items.find(i => i.id === id);
+  if (item) { item.qty = Math.max(1, item.qty + d); save(); renderList(); }
+}
+
+function clearDone() {
+  const n = items.filter(i => i.checked).length;
+  if (!n) { showToast('Nenhum item comprado!'); return; }
+  items = items.filter(i => !i.checked); save(); renderList();
+  showToast('✅ ' + n + ' item(s) removido(s)!');
+}
+
+function clearAll() {
+  if (!items.length) { showToast('A lista já está vazia!'); return; }
+  if (confirm('Apagar toda a lista?')) { items = []; save(); renderList(); showToast('🗑 Lista limpa!'); }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function marketBadge(market) {
+  if (!market) return '';
+  const bg = MARKET_COLORS[market] || '#888';
+  const color = MARKET_TEXT_COLORS[market] || 'white';
+  return `<span class="market-badge" style="background:${bg};color:${color}">${market}</span>`;
+}
+
+function itemCard(item) {
+  const emoji = CAT_EMOJIS[item.cat] || '🛍️';
+  return `
+  <div class="item-card${item.checked ? ' checked' : ''}" id="card-${item.id}">
+    <button class="check-btn${item.checked ? ' checked' : ''}" onclick="toggleItem(${item.id})">✓</button>
+    <div class="item-emoji">${emoji}</div>
+    <div class="item-info">
+      <div class="item-name">${escHtml(item.name)}</div>
+      <div class="item-meta">
+        ${item.cat ? `<span class="item-cat">${item.cat}</span>` : ''}
+        ${marketBadge(item.market)}
+      </div>
+      <div class="item-qty-controls" style="margin-top:6px">
+        <button class="iq-btn" onclick="changeItemQty(${item.id},-1)">−</button>
+        <span class="iq-val">${item.qty} ${escHtml(item.unit)}</span>
+        <button class="iq-btn" onclick="changeItemQty(${item.id},1)">+</button>
+      </div>
+    </div>
+    <button class="del-btn" onclick="deleteItem(${item.id})">🗑</button>
+  </div>`;
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function renderList() {
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  let filtered = items.filter(i => !q || i.name.toLowerCase().includes(q) || (i.cat||'').toLowerCase().includes(q) || (i.market||'').toLowerCase().includes(q));
+
+  // Stats
+  const total = items.length;
+  const done = items.filter(i=>i.checked).length;
+  document.getElementById('totalCount').textContent = total + ' item' + (total!==1?'s':'');
+  document.getElementById('statsBar').innerHTML = total
+    ? `<div class="stat-chip">📋 ${total} total</div><div class="stat-chip done">✓ ${done} comprado${done!==1?'s':''}</div><div class="stat-chip">🛍️ ${total-done} por comprar</div>`
+    : '';
+
+  const container = document.getElementById('listContainer');
+  if (!filtered.length) {
+    container.innerHTML = `<div class="empty"><div class="empty-icon">🛒</div><p>Lista vazia</p><span>${q ? 'Sem resultados para "'+q+'"' : 'Adiciona o primeiro item!'}</span></div>`;
+    return;
+  }
+
+  const ptSort = (a, b) => a.localeCompare(b, 'pt', { sensitivity: 'base' });
+  const ptSortName = (a, b) => a.name.localeCompare(b.name, 'pt', { sensitivity: 'base' });
+
+  if (currentTab === 'lista') {
+    const sorted = [...filtered].sort(ptSortName);
+    container.innerHTML = sorted.map(itemCard).join('');
+  } else if (currentTab === 'categoria') {
+    const cats = [...new Set(filtered.map(i => i.cat || 'Outros'))].sort(ptSort);
+    let html = '';
+    cats.forEach(cat => {
+      const catItems = filtered.filter(i => (i.cat||'Outros') === cat).sort(ptSortName);
+      const emoji = CAT_EMOJIS[cat] || '📦';
+      html += `<div class="group-header"><h2>${emoji} ${cat}</h2><div class="group-line"></div><div class="group-badge">${catItems.length}</div></div>`;
+      html += catItems.map(itemCard).join('');
+    });
+    container.innerHTML = html;
+  } else if (currentTab === 'mercado') {
+    const markets = [...new Set(filtered.map(i => i.market || 'Sem mercado'))].sort(ptSort);
+    let html = '';
+    markets.forEach(market => {
+      const mItems = filtered.filter(i => (i.market||'Sem mercado') === market).sort(ptSortName);
+      const bg = MARKET_COLORS[market] || '#888';
+      html += `<div class="group-header"><h2>🏪 ${market}</h2><div class="group-line"></div><div class="group-badge" style="background:${bg}20;color:${bg}">${mItems.length}</div></div>`;
+      html += mItems.map(itemCard).join('');
+    });
+    container.innerHTML = html;
+  }
+}
+
+// Enter key to add
+document.getElementById('itemName').addEventListener('keydown', e => { if (e.key === 'Enter') addItem(); });
+
+load();
+renderList();
+</script>
+</body>
+</html>
